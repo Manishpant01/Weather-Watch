@@ -1,7 +1,7 @@
+import { act, fireEvent, render } from "@testing-library/react-native";
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react-native";
-import SearchInput from "../SearchInput";
 import { DEFAULT_LOCATION } from "../../helpers";
+import SearchInput from "../SearchInput";
 
 const mockGetCoordinate = jest.fn();
 
