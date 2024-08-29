@@ -28,6 +28,7 @@ const WeatherForecast: FC<WeatherForecastProps> = ({
         <Text style={styles.name}>{locationName}</Text>
         <Text style={styles.subText}>{formateDate()}</Text>
         <Image
+          testID="weather-icon"
           style={styles.weatherIcon}
           source={{ uri: getWeatherImage(weatherCode) }}
           //  defaultSource={require("../imgs/default-weather.png")} // Fallback image

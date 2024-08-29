@@ -33,6 +33,7 @@ const WeeklyForecast: FC<WeeklyForecastProps> = ({ weatherInfos }) => {
               <Text style={styles.subText}>{formatDate(time)}</Text>
               <View style={styles.viewWeather}>
                 <Image
+                  testID={`weather-icon-${i}`}
                   style={styles.weatherIcon}
                   source={{ uri: getWeatherImage(weather_code) }}
                   //defaultSource={require("../imgs/default-weather.png")} // Fallback image
