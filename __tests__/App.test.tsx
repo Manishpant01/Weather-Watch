@@ -1,11 +1,14 @@
-import 'react-native';
-import React from 'react';
-import App from '../App';
+// __tests__/App.test.tsx
 
-import { render, screen } from '@testing-library/react-native';
+import React from "react";
+import { render } from "@testing-library/react-native";
+import App from "../App";
 
-it('should render the App', () => {
-  render(<App />);
+describe("App Component", () => {
+  it("renders the Main component", () => {
+    const { getByTestId } = render(<App />);
 
-  expect(screen.getByText('Open up App.tsx to start working on your app!')).toBeTruthy()
+    const mainComponent = getByTestId("main-component");
+    expect(mainComponent).toBeTruthy();
+  });
 });
