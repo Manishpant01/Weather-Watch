@@ -1,7 +1,7 @@
+import { fireEvent, render } from "@testing-library/react-native";
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
-import LocationList from "../showLocationList";
 import { geocoordinateResult } from "../../services";
+import LocationList from "../showLocationList";
 
 const mockLocations: geocoordinateResult[] = [
   { id: 1, name: "New York", country: "USA" },

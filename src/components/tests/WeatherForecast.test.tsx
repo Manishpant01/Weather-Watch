@@ -1,13 +1,8 @@
-import React from "react";
 import { render } from "@testing-library/react-native";
-import WeatherForecast from "../WeatherForecast"; // Adjust the path as necessary
-// import { formateDate } from "../../helpers/getFormatDate";
-// import getWeatherImage, {
-//   getWeatherDescription,
-// } from "../helpers/getWeatherImage";
+import React from "react";
+import WeatherForecast from "../WeatherForecast";
 import { geocoordinateResult, WeatherApiResponse } from "../../services";
 
-// Mock implementations for helpers
 jest.mock("../../helpers/getFormatDate.ts", () => ({
   formateDate: jest.fn(() => "2024-08-29"),
 }));

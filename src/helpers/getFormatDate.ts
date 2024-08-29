@@ -31,7 +31,6 @@ export const formateDate = (): string => {
 
   const formattedDate = `${weekday}, ${month} ${day}, ${year}`;
 
-  //   console.log(formattedDate);
   return formattedDate;
 };
 
