@@ -19,7 +19,6 @@ const Main: FC = () => {
     try {
       const currentLocationData = await getGeocoordinate(location);
       setLocations(currentLocationData.results || []);
-      console.log(currentLocationData.results);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
       setLocations([]);
@@ -44,7 +43,10 @@ const Main: FC = () => {
   );
 
   const LoadingView = () => (
-    <View style={[styles.containerLoading, styles.horizontal]}>
+    <View
+      testID="activity-indicator"
+      style={[styles.containerLoading, styles.horizontal]}
+    >
       <ActivityIndicator size="large" color="#87CEEB" />
     </View>
   );

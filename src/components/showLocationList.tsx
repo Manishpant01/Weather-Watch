@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { geocoordinateResult } from "../services";
 
@@ -25,6 +26,12 @@ const LocationList: React.FC<LocationListProps> = ({
     </TouchableOpacity>
   );
 
+  const renderEmptyComponent = () => (
+    <View style={styles.emptyContainer}>
+      <Text style={styles.emptyText}>No data found.</Text>
+    </View>
+  );
+
   const handlePress = (id: number) => {
     const selectedLocation = location.find((item) => item.id === id);
 
@@ -39,6 +46,7 @@ const LocationList: React.FC<LocationListProps> = ({
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.container}
+      ListEmptyComponent={renderEmptyComponent}
     />
   );
 };
@@ -61,6 +69,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "#333",
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
+  },
+  emptyText: {
+    fontSize: 18,
+    color: "gray",
   },
 });
 

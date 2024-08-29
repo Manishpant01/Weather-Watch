@@ -12,42 +12,43 @@ interface WeeklyForecastProps {
 }
 
 const WeeklyForecast: FC<WeeklyForecastProps> = ({ weatherInfos }) => {
-  const combinedArray = weatherInfos?.daily.time.map((time, index) => ({
+  const dailyData = weatherInfos?.daily || {
+    time: [],
+    weather_code: [],
+    temperature_2m_max: [],
+  };
+
+  const forecasts = dailyData.time.map((time, index) => ({
     time,
-    weather_code: weatherInfos?.daily.weather_code[index] as WeatherCode,
-    temperature_2m_max: weatherInfos?.daily.temperature_2m_max[index],
+    weather_code: dailyData.weather_code[index] as WeatherCode,
+    temperature_2m_max: dailyData.temperature_2m_max[index],
   }));
-  console.log(combinedArray);
+
   return (
     <View style={styles.mainView}>
-      {combinedArray?.length ? (
-        <ScrollView horizontal={true}>
-          {combinedArray.map(
-            ({ time, temperature_2m_max, weather_code }, i) => {
-              return (
-                <View key={i} style={styles.viewRow}>
-                  <Text style={styles.subText}>{formatDate(time)}</Text>
-                  <View style={styles.viewWeather}>
-                    <Image
-                      style={styles.weatherIcon}
-                      source={{
-                        uri: getWeatherImage(weather_code),
-                      }}
-                    />
-                    <Text style={styles.temp}>
-                      {Math.trunc(temperature_2m_max)} °C
-                    </Text>
-                  </View>
-                  <Text style={styles.subText}>
-                    {getWeatherDescription(weather_code)}
-                  </Text>
-                </View>
-              );
-            }
-          )}
+      {forecasts.length > 0 ? (
+        <ScrollView horizontal contentContainerStyle={styles.scrollView}>
+          {forecasts.map(({ time, temperature_2m_max, weather_code }, i) => (
+            <View key={i} style={styles.viewRow}>
+              <Text style={styles.subText}>{formatDate(time)}</Text>
+              <View style={styles.viewWeather}>
+                <Image
+                  style={styles.weatherIcon}
+                  source={{ uri: getWeatherImage(weather_code) }}
+                  //defaultSource={require("../imgs/default-weather.png")} // Fallback image
+                />
+                <Text style={styles.temp}>
+                  {Math.trunc(temperature_2m_max)} °C
+                </Text>
+              </View>
+              <Text style={styles.subText}>
+                {getWeatherDescription(weather_code)}
+              </Text>
+            </View>
+          ))}
         </ScrollView>
       ) : (
-        <></>
+        <Text style={styles.noDataText}>No data available</Text>
       )}
     </View>
   );
@@ -55,19 +56,15 @@ const WeeklyForecast: FC<WeeklyForecastProps> = ({ weatherInfos }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    display: "flex",
-    justifyContent: "center",
     marginTop: 18,
-    alignItems: "center",
     paddingHorizontal: 16,
   },
+  scrollView: {
+    flexGrow: 1,
+    alignItems: "center",
+  },
   viewRow: {
-    display: "flex",
-    flex: 1,
-    paddingTop: 35,
-    paddingBottom: 35,
-    textAlign: "center",
-    justifyContent: "space-between",
+    paddingVertical: 35,
     alignItems: "center",
   },
   weatherIcon: {
@@ -76,8 +73,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   viewWeather: {
-    textAlign: "center",
-    justifyContent: "space-between",
     alignItems: "center",
   },
   temp: {
@@ -87,6 +82,11 @@ const styles = StyleSheet.create({
   },
   subText: {
     color: "#ddd",
+  },
+  noDataText: {
+    color: "#ddd",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 

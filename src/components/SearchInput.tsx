@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, memo, useEffect, useState } from "react";
 import { Image, StyleSheet, TextInput, View } from "react-native";
 import { DEFAULT_LOCATION } from "../helpers/constants";
 
 interface SearchInputProps {
-  getCoordinate(text: string): Promise<void>;
+  getCoordinate: (text: string) => void;
 }
 
-const SearchInput: FC<SearchInputProps> = ({ getCoordinate }) => {
+const SearchInput: FC<SearchInputProps> = memo(({ getCoordinate }) => {
   const [textSearch, setTextSearch] = useState<string>("");
 
   const handleSearch = (text: string) =>
@@ -14,7 +14,9 @@ const SearchInput: FC<SearchInputProps> = ({ getCoordinate }) => {
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      getCoordinate(textSearch);
+      if (textSearch) {
+        getCoordinate(textSearch);
+      }
     }, 650);
 
     return () => clearTimeout(delayDebounceFn);
@@ -36,7 +38,7 @@ const SearchInput: FC<SearchInputProps> = ({ getCoordinate }) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   searchSection: {

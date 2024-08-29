@@ -1,6 +1,5 @@
 export const formateDate = (): string => {
   const date = new Date();
-  console.log(date);
   const weekdays = [
     "Sunday",
     "Monday",

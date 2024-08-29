@@ -20,40 +20,48 @@ const Weather: FC<WeatherProps> = ({ locations }) => {
   const [isLoading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (locations) {
+    if (locations && locations.length > 0) {
       setLocationsInfos(locations[0]);
-      getWeatherData();
+      getWeatherData(locations[0]);
+    } else {
+      setLoading(false);
     }
   }, [locations]);
 
-  const getWeatherData = async () => {
-    const { latitude, longitude } = locations?.[0] as geocoordinateResult;
-    const weatherData = await getWeatherForecast(latitude, longitude);
-    setWeatherInfos(weatherData);
-    setLoading(false);
+  const getWeatherData = async (location: geocoordinateResult) => {
+    try {
+      const { latitude, longitude } = location;
+      if (latitude !== undefined && longitude !== undefined) {
+        const weatherData = await getWeatherForecast(latitude, longitude);
+        setWeatherInfos(weatherData);
+      }
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const LoadingView = () => {
-    return (
-      <View style={[styles.container, styles.horizontal]}>
-        <ActivityIndicator size="large" color="#87CEEB" />
-      </View>
-    );
-  };
+  const LoadingView = () => (
+    <View
+      testID="loading-indicator"
+      style={[styles.container, styles.horizontal]}
+    >
+      <ActivityIndicator size="large" color="#87CEEB" />
+    </View>
+  );
 
-  const showWeatherView = () => {
-    return (
-      <>
-        <WeatherForecast
-          weatherInfos={weatherInfos}
-          locationsInfos={locationsInfos}
-        />
-        <WeeklyForecast weatherInfos={weatherInfos} />
-      </>
-    );
-  };
+  const showWeatherView = () => (
+    <>
+      <WeatherForecast
+        weatherInfos={weatherInfos}
+        locationsInfos={locationsInfos}
+      />
+      <WeeklyForecast weatherInfos={weatherInfos} />
+    </>
+  );
 
-  return <>{isLoading ? LoadingView() : showWeatherView()}</>;
+  return <>{isLoading ? <LoadingView /> : showWeatherView()}</>;
 };
 
 const styles = StyleSheet.create({
