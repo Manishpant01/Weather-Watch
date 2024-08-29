@@ -26,6 +26,7 @@ const SearchInput: FC<SearchInputProps> = memo(({ getCoordinate }) => {
     <View>
       <View style={styles.searchSection}>
         <Image
+          testID="search-icon"
           style={styles.searchIcon}
           source={require("../imgs/search.png")}
         />
